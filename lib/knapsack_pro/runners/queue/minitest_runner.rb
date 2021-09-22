@@ -90,7 +90,7 @@ module KnapsackPro
         private
 
         def self.minitest_run(runner, test_file_paths, args)
-          puts "#{ENV['TEST_ENV_NUMBER']}: minitest_run, requiring #{test_file_path}"
+          puts "#{ENV['TEST_ENV_NUMBER']}: minitest_run, requiring #{test_file_paths}"
           test_file_paths.each do |test_file_path|
             require "./#{test_file_path}"
           end
