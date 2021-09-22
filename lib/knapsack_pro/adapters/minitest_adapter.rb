@@ -64,9 +64,7 @@ module KnapsackPro
 
       module BindQueueModeMinitestPlugin
         def before_setup
-          puts "#{ENV['TEST_ENV_NUMBER']}: before_setup before super"
           super
-          puts "#{ENV['TEST_ENV_NUMBER']}: before_setup after super"
 
           unless ENV['KNAPSACK_PRO_BEFORE_QUEUE_HOOK_CALLED']
             KnapsackPro::Hooks::Queue.call_before_queue
@@ -79,9 +77,7 @@ module KnapsackPro
         end
 
         def after_teardown
-          puts "#{ENV['TEST_ENV_NUMBER']}: after_teardown 1"
           KnapsackPro.tracker.stop_timer
-          puts "#{ENV['TEST_ENV_NUMBER']}: after_teardown 2 super"
           super
         end
       end

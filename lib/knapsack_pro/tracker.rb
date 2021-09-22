@@ -136,6 +136,7 @@ module KnapsackPro
     end
 
     def update_test_file_time(execution_time)
+      puts "#{ENV['TEST_ENV_NUMBER']}: update_test_file_time, #{current_test_path}"
       @test_files_with_time[current_test_path] ||= {
         time_execution: 0,
         measured_time: false,

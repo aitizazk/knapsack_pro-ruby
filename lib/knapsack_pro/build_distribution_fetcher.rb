@@ -25,6 +25,7 @@ module KnapsackPro
     # get test files and time execution for last build distribution matching:
     # branch, node_total, node_index
     def call
+      puts "#{ENV['TEST_ENV_NUMBER']}: BuildDistributionFetcher, call"
       connection = KnapsackPro::Client::Connection.new(build_action)
       response = connection.call
       if connection.success?

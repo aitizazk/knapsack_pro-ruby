@@ -90,15 +90,16 @@ module KnapsackPro
         private
 
         def self.minitest_run(runner, test_file_paths, args)
+          puts "#{ENV['TEST_ENV_NUMBER']}: minitest_run, requiring #{test_file_path}"
           test_file_paths.each do |test_file_path|
             require "./#{test_file_path}"
           end
 
           # duplicate args because Minitest modifies args
           result = ::Minitest.run(args.dup)
-
+          puts "#{ENV['TEST_ENV_NUMBER']}: minitest_run, after result #{result}"
           ::Minitest::Runnable.reset
-
+          puts "#{ENV['TEST_ENV_NUMBER']}: minitest_run, reset"
           result
         end
       end
