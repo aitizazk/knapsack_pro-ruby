@@ -82,7 +82,7 @@ module KnapsackPro
 
     def prepare_test_files(response)
       decrypted_test_files = KnapsackPro::Crypto::Decryptor.call(fast_and_slow_test_files_to_run, response['test_files'])
-      puts "#{ENV['TEST_ENV_NUMBER']}: prepare_test_files, #{decrypted_test_files}"
+      puts "prepare_test_files, #{decrypted_test_files}"
       KnapsackPro::TestFilePresenter.paths(decrypted_test_files)
     end
 
