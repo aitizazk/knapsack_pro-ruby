@@ -24,27 +24,35 @@ module KnapsackPro
       # https://github.com/seattlerb/minitest/blob/master/lib/minitest/test.rb
       module BindTimeTrackerMinitestPlugin
         def before_setup
+          puts "#{ENV['TEST_ENV_NUMBER']}: before_setup before super 11"
           super
+          puts "#{ENV['TEST_ENV_NUMBER']}: before_setup after super 11"
           KnapsackPro.tracker.current_test_path = KnapsackPro::Adapters::MinitestAdapter.test_path(self)
           KnapsackPro.tracker.start_timer
         end
 
         def after_teardown
+          puts "#{ENV['TEST_ENV_NUMBER']}: after_teardown"
           KnapsackPro.tracker.stop_timer
+          puts "#{ENV['TEST_ENV_NUMBER']}: after_teardown before super"
           super
         end
       end
 
       def bind_time_tracker
+        puts "#{ENV['TEST_ENV_NUMBER']}: bind_time_tracker"
         ::Minitest::Test.send(:include, BindTimeTrackerMinitestPlugin)
 
         add_post_run_callback do
+          puts "#{ENV['TEST_ENV_NUMBER']}: bind_time_tracker 22"
           KnapsackPro.logger.debug(KnapsackPro::Presenter.global_time)
         end
       end
 
       def bind_save_report
+        puts "#{ENV['TEST_ENV_NUMBER']}: bind_save_report"
         add_post_run_callback do
+          puts "#{ENV['TEST_ENV_NUMBER']}: bind_save_report 1111"
           KnapsackPro::Report.save
         end
       end
@@ -56,29 +64,36 @@ module KnapsackPro
 
       module BindQueueModeMinitestPlugin
         def before_setup
+          puts "#{ENV['TEST_ENV_NUMBER']}: before_setup before super"
           super
+          puts "#{ENV['TEST_ENV_NUMBER']}: before_setup after super"
 
           unless ENV['KNAPSACK_PRO_BEFORE_QUEUE_HOOK_CALLED']
             KnapsackPro::Hooks::Queue.call_before_queue
             ENV['KNAPSACK_PRO_BEFORE_QUEUE_HOOK_CALLED'] = 'true'
           end
 
+          puts "#{ENV['TEST_ENV_NUMBER']}: before_setup current test path"
           KnapsackPro.tracker.current_test_path = KnapsackPro::Adapters::MinitestAdapter.test_path(self)
           KnapsackPro.tracker.start_timer
         end
 
         def after_teardown
+          puts "#{ENV['TEST_ENV_NUMBER']}: after_teardown 1"
           KnapsackPro.tracker.stop_timer
-
+          puts "#{ENV['TEST_ENV_NUMBER']}: after_teardown 2 super"
           super
         end
       end
 
       def bind_queue_mode
+        puts "#{ENV['TEST_ENV_NUMBER']}: bind_queue_mode 1"
         ::Minitest::Test.send(:include, BindQueueModeMinitestPlugin)
-
+        puts "#{ENV['TEST_ENV_NUMBER']}: bind_queue_mode 2"
         add_post_run_callback do
+          puts "#{ENV['TEST_ENV_NUMBER']}: debug post run 1"
           KnapsackPro.logger.debug(KnapsackPro::Presenter.global_time)
+          puts "#{ENV['TEST_ENV_NUMBER']}: debug post run 1"
         end
       end
 
@@ -86,9 +101,19 @@ module KnapsackPro
 
       def add_post_run_callback(&block)
         if ::Minitest.respond_to?(:after_run)
-          ::Minitest.after_run { block.call }
+          ::Minitest.after_run do
+            puts '+'*100
+            puts "#{ENV['TEST_ENV_NUMBER']} ::Minitest.after_run called"
+            block.call
+            puts '+'*100
+          end
         else
-          ::Minitest::Unit.after_tests { block.call }
+          ::Minitest::Unit.after_tests do
+            puts '+'*100
+            puts "#{ENV['TEST_ENV_NUMBER']}::Minitest::Unit.after_tests called"
+            block.call
+            puts '+'*100
+          end
         end
       end
     end
