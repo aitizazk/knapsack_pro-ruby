@@ -29,8 +29,13 @@ module KnapsackPro
             all_test_file_paths: [],
           }
           while accumulator[:status] == :next
+            puts "accumulator next #{accumulator[:status]}"
             accumulator = run_tests(accumulator)
           end
+
+          puts '+'*100
+          puts "Ensure we return exit code: #{accumulator[:exitstatus]}"
+          puts '+'*100
 
           Kernel.exit(accumulator[:exitstatus])
         end
