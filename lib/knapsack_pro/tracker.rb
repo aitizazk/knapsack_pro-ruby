@@ -30,6 +30,7 @@ module KnapsackPro
     end
 
     def reset_timer
+      puts "in reset timer"
       @start_time = now_without_mock_time.to_f
     end
 
@@ -39,6 +40,7 @@ module KnapsackPro
       if @current_test_path
         update_global_time(execution_time)
         update_test_file_time(execution_time)
+        puts "after update_test_file_time"
         reset_timer
       end
 
@@ -137,6 +139,7 @@ module KnapsackPro
 
     def update_test_file_time(execution_time)
       puts "update_test_file_time, #{current_test_path}"
+      puts "value of , #{current_test_path} => #{@test_files_with_time[current_test_path]}"
       @test_files_with_time[current_test_path] ||= {
         time_execution: 0,
         measured_time: false,

@@ -31,9 +31,11 @@ module KnapsackPro
         end
 
         def after_teardown
-          puts "after_teardown"
+          # puts "after_teardown"
+          puts "#{ENV['TEST_ENV_NUMBER']}: after_teardown before stop timer"
           KnapsackPro.tracker.stop_timer
-          puts "after_teardown before super"
+          # puts "after_teardown before super"
+          puts "#{ENV['TEST_ENV_NUMBER']}: after_teardown after stop timer"
           super
         end
       end
